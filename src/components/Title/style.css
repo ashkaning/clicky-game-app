@@ -20,3 +20,13 @@
   font-size: 20px;
   color:green;
 }
+.lost{
+  color:red;
+  font-weight: bolder;
+  font-size: 20px;
+}
+.win{
+  color:green;
+  font-weight: bolder;
+  font-size: 20px;
+}

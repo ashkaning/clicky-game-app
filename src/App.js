@@ -10,7 +10,9 @@ class App extends Component {
     animations,
     score: 0,
     highscore: 0,
-    clicked: []
+    clicked: [],
+    lostalert:"",
+    winalert:""
   };
   shuffle = (animations)=> {
     animations.sort(() => Math.random() - 0.5);
@@ -23,8 +25,17 @@ class App extends Component {
       clicked: []
     })
   }
+  resetScoreWon = ()=>{
+    this.setState({
+      score: 0,
+      highscore: 0,
+      clicked: []
+    })
+  }
 
   clickyGameFunc = id => {
+    this.setState({winalert:"Good Job Continue"})
+    this.setState({lostalert:""})
     if (this.state.clicked.indexOf(id) === -1) {
       const newScore = this.state.score + 1;
       this.shuffle(animations)
@@ -35,15 +46,18 @@ class App extends Component {
         this.setState({ highscore: newScore });
         this.shuffle(animations)
       }
-      else if (newScore === 4) {
-        alert('You Won!')
+     if (newScore === 10) {
+      this.setState({winalert:"You Won!"})
+      this.setState({lostalert:""})
         this.shuffle(animations)
+        this.resetScoreWon()
       }
       this.setState({ clicked: this.state.clicked.concat(id) });
 
     }
     else {
-      alert('lost')
+      this.setState({winalert:""})
+      this.setState({lostalert:"You Lost!"})
       this.shuffle(animations)
       this.resetScore()
     }
@@ -51,7 +65,7 @@ class App extends Component {
   render() {
     return (
       <Wrapper>
-        <Title score={this.state.score} highscore={this.state.highscore}>Click an image to begin! Don't Click duplicates</Title>
+        <Title score={this.state.score} highscore={this.state.highscore} lostalert={this.state.lostalert} winalert={this.state.winalert}>Click an image to begin! Don't Click duplicates</Title>
         <BootRow>
           {this.state.animations.map(friend => (
             <AnimateCard
